@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policy RAG Assistant | Tejas Bornare</title>
+<meta name="description" content="Case study: a RAG system that answers insurance policy questions with cited, highlighted sources.">
+<meta name="color-scheme" content="dark light">
+<script>try{var t=localStorage.getItem("tb-theme")||"dark";if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/case.css">
+</head>
+<body>
+<div class="wrap"><nav class="top" aria-label="Site"><a class="logo" href="../index.html">tb</a><a href="../index.html#work">← All projects</a></nav></div>
+
+<main>
+<div class="wrap">
+<header>
+  <p class="kicker">Case study / GenAI</p>
+  <h1>Policy RAG <span class="grad">Assistant</span></h1>
+  <p class="lede">Ask a question about an insurance policy in plain English. Get an answer that cites the insurer, document, page and section, with the passage highlighted on the original PDF. When the documents don't settle it, it says so and recommends referral.</p>
+  <div class="meta">
+    <div><small>Role</small><span>Solo, end to end</span></div>
+    <div><small>Stack</small><span>Python, ChromaDB, BM25, Llama 3.1, Streamlit</span></div>
+    <div><small>Runs on</small><span>A 16 GB laptop CPU, fully local</span></div>
+  </div>
+  <div class="btns"><a class="btn primary" href="https://github.com/TejasBornare97/insurance-rag-assistant">View code on GitHub ↗</a></div>
+</header>
+</div>
+<figure class="hero-shot">
+  <div class="frame"><img src="../assets/app_answer.webp" alt="The assistant marking a drone-damage question as not settled by the documents, citing the closest clauses and recommending referral" width="1279" height="666"></div>
+  <figcaption>A grey-area question: drones aren't mentioned, so it cites the closest clauses and refers it.</figcaption>
+</figure>
+<div class="wrap">
+<article>
+  <h2>The problem</h2>
+  <p>Claims handlers and service staff answer cover questions all day, and the answer is buried in long policy wordings. A chatbot that guesses is worse than useless here: one invented excess or limit becomes a complaint. I wanted to see how far a small, local RAG system could go when the rule is <b>every fact must point back to a clause</b>.</p>
+
+  <h2>Results</h2>
+  <p>Tested end to end on 29 questions across seven types: lookups, insurer traps, conditions, procedures, internal staff questions, a calculation, and questions with no answer in the documents.</p>
+  <table>
+    <thead><tr><th>Measure</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Correct answers (answerable questions)</td><td>27 / 27</td></tr>
+      <tr><td>Cited the right document</td><td>26 / 27</td></tr>
+      <tr><td>Cited the right section</td><td>25 / 27</td></tr>
+      <tr><td>Refused or referred when the answer wasn't there</td><td>2 / 2</td></tr>
+      <tr><td>Average time per answer (laptop CPU)</td><td>15 s</td></tr>
+    </tbody>
+  </table>
+  <p>The set is small and I wrote it alongside the documents, so this shows the system works on this set, not on any question a customer might ask. The next step is a test set written by people who haven't seen the documents.</p>
+
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><span><b>Parse.</b> PyMuPDF extracts text, crops headers and footers by position, and rebuilds table rows from cell coordinates so a figure stays next to its label.</span></li>
+    <li><span><b>Chunk.</b> Splits only inside section boundaries, never through a table row, and stamps every chunk with its insurer, product, document and section.</span></li>
+    <li><span><b>Retrieve.</b> Vector search and BM25 keyword search, fused with Reciprocal Rank Fusion, filtered to the insurer or product the question names.</span></li>
+    <li><span><b>Answer.</b> A local Llama 3.1 8B gets numbered, labelled sources and strict rules: cite every fact, quote figures exactly, keep insurers apart, refer grey areas.</span></li>
+    <li><span><b>Check.</b> Citations must map to real retrieved chunks, and every £ amount and percentage must appear in the cited text, or the answer is flagged.</span></li>
+  </ol>
+
+  <h2>What broke, and how I fixed it</h2>
+  <p>None of these were planned for. They came out of testing, and they're where most of the learning happened.</p>
+  <div class="bug"><h3>Figures separated from their labels</h3><p>Raw extraction put "Cash and bank notes" and "£500" on different lines. A chunk boundary between them made the number meaningless.</p><p class="fix">Rebuilt rows from each cell's horizontal position, because the built-in table finder merged words on these PDFs.</p></div>
+  <div class="bug"><h3>Two insurers' tables looked identical</h3><p>Harbourline's excess table never says "Harbourline", so a Harbourline question could pull Northgate's table.</p><p class="fix">A contextual header on every chunk, like <code>Harbourline | Home | Policy Wording | Section 5</code>.</p></div>
+  <div class="bug"><h3>Search ranked a definition above the answer</h3><p>Asked for the escape of water excess, embeddings preferred the clause defining escape of water.</p><p class="fix">Added BM25, which rewards exact words like "excess", and fused both rankings.</p></div>
+  <div class="bug"><h3>The model invented a £5,000,000 limit</h3><p>The prompt already said to quote figures exactly. It didn't help.</p><p class="fix">A check in code, outside the model: any figure not found in the cited sources turns the answer red.</p></div>
+  <div class="bug"><h3>Too strict, then too loose</h3><p>The first prompt refused a valid rule-based answer. Loosening it made the model decide cover on a drone question.</p><p class="fix">A third option: say the documents don't address it, cite the closest clause, and refer, the way a claims handler would.</p></div>
+
+  <h2>Why synthetic documents</h2>
+  <p>Real policy wordings are copyrighted and internal procedures are confidential, so neither belongs in a public repo. I wrote eight documents for two fictional insurers, modelled on the structure of UK wordings. That also gave every test question a known right answer, and the two insurers deliberately disagree on limits to test whether the system cites the right one.</p>
+
+  <h2>What I'd do next</h2>
+  <ul>
+    <li>A larger test set written by people who haven't read the documents</li>
+    <li>Separate arithmetic checking, so correct calculations aren't flagged</li>
+    <li>A hosted or GPU model to get answers from 15 s down to 1–2 s</li>
+    <li>Filtering by policy version and start date, and by user role for internal procedures</li>
+    <li>OCR for scanned PDFs</li>
+  </ul>
+</article>
+<nav class="next" aria-label="More case studies">
+  <a href="../index.html#work"><small>Back to</small>All projects</a>
+  <a href="voice.html" style="text-align:right"><small>Next case study</small>Voice Receptionist →</a>
+</nav>
+</div>
+</main>
+</body>
+</html>

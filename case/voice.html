@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice Receptionist | Tejas Bornare</title>
+<meta name="description" content="Case study: a voice agent that answers calls, checks a real Google Calendar and books appointments.">
+<meta name="color-scheme" content="dark light">
+<script>try{var t=localStorage.getItem("tb-theme")||"dark";if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/case.css">
+</head>
+<body>
+<div class="wrap"><nav class="top" aria-label="Site"><a class="logo" href="../index.html">tb</a><a href="../index.html#work">← All projects</a></nav></div>
+
+<main>
+<div class="wrap">
+<header>
+  <p class="kicker">Case study / Voice agent</p>
+  <h1>Voice <span class="grad">Receptionist</span></h1>
+  <p class="lede">A voice agent that answers calls for a physiotherapy clinic. It listens, checks a real Google Calendar, books the appointment and confirms it out loud. Callers can cut in mid-sentence, the way they would with a person.</p>
+  <div class="meta">
+    <div><small>Role</small><span>Solo, end to end</span></div>
+    <div><small>Stack</small><span>faster-whisper, Piper, Claude tool use, Google Calendar API</span></div>
+    <div><small>Runs on</small><span>Local speech, hosted LLM</span></div>
+  </div>
+  <div class="btns"><a class="btn primary" href="https://github.com/TejasBornare97/voice-receptionist">View code on GitHub ↗</a></div>
+</header>
+
+<article>
+  <h2>A real test call</h2>
+  <div class="call" aria-label="Excerpt from a test call">
+    <p><b>Receptionist</b> Hello, you're through to Riverside Physio. How can I help you today?</p>
+    <p class="c"><b>Caller</b> Can I book something on Wednesday?</p>
+    <code>check_availability(date="2026-11-11") → 10 free slots</code>
+    <p><b>Receptionist</b> Yes, we have Wednesday the eleventh free from nine in the morning until a quar…</p>
+    <p class="cut">caller interrupts</p>
+    <p class="c"><b>Caller</b> Sorry, actually make it Thursday.</p>
+    <code>check_availability(date="2026-11-12") → 10 free slots</code>
+    <p><b>Receptionist</b> No problem, Thursday the twelfth has the same times free. Is there a time of day that suits you best?</p>
+    <code>book_appointment(date="2026-11-12", time="12:00") → confirmed, ref A42ACE</code>
+    <p><b>Receptionist</b> Your appointment is booked for Thursday the 12th of November at noon. Your booking reference is A42ACE.</p>
+  </div>
+  <p>The booking then appears in the clinic's Google Calendar with the caller's name, number and reference.</p>
+
+  <h2>How a turn works</h2>
+  <ol class="steps">
+    <li><span><b>Listen.</b> Audio in 30 ms blocks. The caller has finished after 800 ms of quiet, measured against a noise level calibrated at the start of the call.</span></li>
+    <li><span><b>Transcribe.</b> Whisper (int8, on CPU) with a short hint about the call, which helps with times and phone numbers.</span></li>
+    <li><span><b>Think.</b> The LLM gets the conversation and three tools: <code>check_availability</code>, <code>book_appointment</code> and <code>end_call</code>.</span></li>
+    <li><span><b>Act.</b> A tool runner validates every request and talks to Google Calendar.</span></li>
+    <li><span><b>Speak.</b> Piper synthesises the reply while the microphone keeps listening for interruptions.</span></li>
+  </ol>
+
+  <h2>Design decisions</h2>
+  <div class="bug"><h3>Business rules live in code, not the prompt</h3><p>The model never writes to the calendar directly. Tools reject weekends, past dates, bad phone numbers and taken slots.</p><p class="fix">The slot is re-checked right before booking, so two callers can't take the same time.</p></div>
+  <div class="bug"><h3>Errors go back to the model</h3><p>If a slot is gone or the API fails, the tool returns an error with a hint instead of crashing.</p><p class="fix">The agent recovers in conversation, for example by offering another time.</p></div>
+  <div class="bug"><h3>Interruptions have to mean it</h3><p>Coughs and echo were cutting the receptionist off.</p><p class="fix">While she's talking, the caller must be 3.5× louder than normal for about 360 ms of a 450 ms window. If an interruption has no words, she picks up where she left off.</p></div>
+  <div class="bug"><h3>The conversation broke every minute</h3><p>The system prompt included the current time and was rebuilt each turn. The model's reasoning is tied to the prompt it was produced with, so the call failed whenever the minute changed.</p><p class="fix">The prompt is now built once, when the call starts.</p></div>
+  <div class="bug"><h3>Phone numbers read as billions</h3><p>TTS read a mobile number as "seven billion, eight hundred and sixty-seven million…".</p><p class="fix">Long digit strings are rewritten as spoken digits in UK groupings before speech.</p></div>
+  <div class="bug"><h3>Bluetooth cut off the first second</h3><p>Opening the microphone per turn made headsets switch audio mode.</p><p class="fix">The microphone stays open for the whole call.</p></div>
+
+  <h2>Built to test fast</h2>
+  <p>The calendar sits behind one interface with an in-memory version and a Google version, so development needs no Google account. A text mode runs the same agent with typed input, which makes testing conversation logic far quicker than speaking every turn.</p>
+
+  <h2>What I'd do next</h2>
+  <ul>
+    <li>A model-based voice activity detector (such as Silero) for noisy rooms</li>
+    <li>Streaming speech sentence by sentence to cut reply latency</li>
+    <li>Echo cancellation so it works on laptop speakers, not just a headset</li>
+    <li>A real phone line through Twilio</li>
+  </ul>
+</article>
+<nav class="next" aria-label="More case studies">
+  <a href="rag.html"><small>Previous case study</small>← Policy RAG Assistant</a>
+  <a href="../index.html#work" style="text-align:right"><small>Back to</small>All projects</a>
+</nav>
+</div>
+</main>
+</body>
+</html>

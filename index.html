@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tejas Bornare | AI/ML Engineer, UK</title>
+<meta name="description" content="Tejas Bornare, AI/ML engineer in the UK. RAG, document intelligence and voice agents for insurance and financial services.">
+<meta property="og:title" content="Tejas Bornare | AI/ML Engineer, UK">
+<meta property="og:description" content="RAG, document intelligence and voice agents for insurance and financial services.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tejasbornare97.github.io/">
+<meta property="og:image" content="https://tejasbornare97.github.io/assets/app_answer.webp">
+<meta name="theme-color" content="#E9EDF2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231A2230'/%3E%3Crect x='6' y='17' width='20' height='7' rx='1.5' fill='%23FFE14D'/%3E%3Ctext x='16' y='22.5' font-family='Arial' font-weight='700' font-size='15' text-anchor='middle' fill='%231A2230'%3ETB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EDF2;
+  --sheet:#FFFFFF;
+  --ink:#1A2230;
+  --muted:#556072;
+  --rule:#CDD4DE;
+  --cite:#2A55D9;
+  --cite-soft:#E3EAFD;
+  --mark:#FFE14D;
+  --ok:#1D7A4E;
+  --refer:#B4570F;
+  --sans:"Schibsted Grotesk",system-ui,sans-serif;
+  --serif:"Newsreader",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --wrap:1120px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121722;--sheet:#1B2231;--ink:#E6EAF1;--muted:#9AA5B8;--rule:#2C3546;
+    --cite:#7C9BFF;--cite-soft:#232E4A;--mark:#E8C93A;--ok:#4CC08A;--refer:#F0A35E;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121722;--sheet:#1B2231;--ink:#E6EAF1;--muted:#9AA5B8;--rule:#2C3546;
+  --cite:#7C9BFF;--cite-soft:#232E4A;--mark:#E8C93A;--ok:#4CC08A;--refer:#F0A35E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cite);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+img{max-width:100%;display:block}
+
+/* header */
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--rule)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{font-weight:700;text-decoration:none;letter-spacing:-.01em}
+.nav{display:flex;gap:22px;align-items:center;font-size:15px}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--ink)}
+.nav .gh{color:var(--ink);font-weight:600;border:1.5px solid var(--ink);padding:6px 14px;border-radius:999px}
+.nav .gh:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:640px){.nav a:not(.gh){display:none}}
+
+/* hero */
+.hero{padding:72px 0 96px}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(44px,6.4vw,80px);line-height:1;letter-spacing:-.035em;font-weight:800}
+.hero .role{font-size:clamp(20px,2.2vw,24px);font-weight:600;margin-top:18px;letter-spacing:-.01em}
+.hero .lede{color:var(--muted);margin-top:16px;max-width:30em;font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:16px;padding:12px 20px;border-radius:10px;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--cite);border-color:var(--cite)}
+.btn.ghost:hover{background:var(--sheet)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:36px;font-size:15px;color:var(--muted)}
+.facts strong{color:var(--ink);font-weight:600}
+
+/* the document demo */
+.demo{position:relative}
+.q{background:var(--ink);color:var(--paper);padding:14px 18px;border-radius:16px 16px 4px 16px;font-size:16px;max-width:88%;margin-left:auto;position:relative;z-index:2}
+.sheet{background:var(--sheet);border-radius:6px;box-shadow:0 1px 0 var(--rule),0 24px 48px -24px rgba(26,34,48,.35);padding:28px 30px 26px;margin-top:-6px;font-family:var(--serif);position:relative;z-index:1}
+.sheet .doc-head{font-family:var(--sans);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:16px}
+.sheet .doc-head span:last-child{white-space:nowrap}
+.sheet h3{font-family:var(--serif);font-weight:500;font-size:21px;margin-bottom:10px}
+.ex-table{width:100%;border-collapse:collapse;font-size:17px}
+.ex-table td{padding:8px 10px;border-bottom:1px dotted var(--rule)}
+.ex-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.ex-table th{font-family:var(--sans);font-weight:500;font-size:13px;color:var(--muted);text-align:left;padding:0 10px 4px}
+.ex-table th:last-child{text-align:right}
+.hl td{background:linear-gradient(var(--mark),var(--mark)) no-repeat left center/0% 78%;animation:sweep .45s cubic-bezier(.6,0,.2,1) .9s forwards}
+.hl td:last-child{animation-delay:1.3s}
+@keyframes sweep{to{background-size:100% 78%;color:#1A2230}}
+.ans{background:var(--sheet);border:1.5px solid var(--rule);border-radius:16px 16px 16px 4px;padding:16px 18px;margin-top:18px;font-size:16px;max-width:92%;opacity:0;transform:translateY(6px);animation:rise .5s ease 2s forwards}
+.ans .status{font-size:13px;font-weight:600;color:var(--ok);margin-bottom:4px}
+.cite{display:inline-block;background:var(--cite-soft);color:var(--cite);font-weight:700;font-size:13px;padding:0 6px;border-radius:5px;margin-left:2px;vertical-align:1px}
+.ans .src{font-size:13px;color:var(--muted);margin-top:8px}
+@keyframes rise{to{opacity:1;transform:none}}
+.demo-note{font-size:13px;color:var(--muted);margin-top:14px}
+.demo-note a{color:var(--cite)}
+
+/* sections */
+section{padding:88px 0}
+.sec-title{font-size:clamp(30px,3.6vw,44px);letter-spacing:-.025em;line-height:1.1;font-weight:800;max-width:18em}
+.sec-intro{color:var(--muted);margin-top:12px;max-width:38em}
+
+/* projects */
+.project{background:var(--sheet);border-radius:8px;margin-top:48px;overflow:hidden;box-shadow:0 1px 0 var(--rule)}
+.p-head{padding:40px 44px 0;display:grid;grid-template-columns:1.3fr 1fr;gap:40px}
+.p-head h3{font-size:clamp(26px,2.8vw,34px);letter-spacing:-.02em;line-height:1.15}
+.p-head .what{margin-top:12px;color:var(--muted);max-width:34em}
+.p-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.p-links .btn{font-size:15px;padding:9px 16px}
+.stack{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.stack span{font-size:14px;padding:4px 10px;border-radius:6px;background:var(--paper);color:var(--ink)}
+.stack-label{font-size:14px;color:var(--muted);margin-bottom:8px;width:100%}
+.p-body{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;padding:36px 44px 44px}
+.shot{border-radius:6px;overflow:hidden;border:1px solid var(--rule)}
+.shot-cap{font-size:14px;color:var(--muted);margin-top:10px}
+.results{width:100%;border-collapse:collapse;font-size:15px}
+.results td{padding:9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.results td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:16px}
+.results caption{text-align:left;font-weight:700;font-size:16px;margin-bottom:6px}
+.honest{font-size:14px;color:var(--muted);margin-top:12px}
+.fixes{border-top:1px solid var(--rule);padding:36px 44px 44px}
+.fixes h4{font-size:18px;margin-bottom:18px}
+.fix-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.fix strong{display:block;font-size:16px;line-height:1.35;margin-bottom:6px}
+.fix p{font-size:15px;color:var(--muted)}
+
+/* call transcript */
+.call{background:#141A26;color:#D9DFEA;border-radius:6px;padding:22px 24px;font-size:15px;line-height:1.55}
+.call .line{margin:0 0 10px;display:grid;grid-template-columns:96px 1fr;gap:10px}
+.call .who{color:#8E9AB0;font-size:13px;padding-top:2px}
+.call .rx .who{color:#FFE14D}
+.call .tool{font-family:var(--mono);font-size:12.5px;color:#7C9BFF;margin:2px 0 12px 106px;word-break:break-word}
+.call .cut{color:#F0A35E;font-size:13px;margin:-4px 0 10px 106px}
+@media (max-width:560px){
+  .call .line{grid-template-columns:1fr;gap:0}
+  .call .tool,.call .cut{margin-left:0}
+}
+
+/* other work */
+.others{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);margin-top:40px;border-radius:8px;overflow:hidden}
+.other{background:var(--sheet);padding:28px 30px}
+.other h3{font-size:19px;letter-spacing:-.01em;line-height:1.3}
+.other p{font-size:15px;color:var(--muted);margin-top:8px}
+.other .tags{font-size:13px;color:var(--ink);margin-top:12px;opacity:.75}
+.other.now{background:var(--ink);color:var(--paper)}
+.other.now p{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+.other.now .tags{color:var(--mark);opacity:1}
+
+/* experience timeline */
+.timeline{margin-top:44px;border-left:2px solid var(--rule);margin-left:6px}
+.job{position:relative;padding:0 0 44px 34px}
+.job::before{content:"";position:absolute;left:-8px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.job.current::before{background:var(--mark)}
+.job .when{font-size:14px;color:var(--muted)}
+.job h3{font-size:22px;letter-spacing:-.015em;margin-top:2px}
+.job .where{color:var(--muted);font-size:15px}
+.job ul{margin-top:12px;padding-left:18px;max-width:46em}
+.job li{margin-bottom:6px;font-size:16px}
+.job li::marker{color:var(--muted)}
+.num{font-weight:700;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--mark) 70%,transparent) 58%);padding:0 1px}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:40px}
+.skills h3{font-size:17px;margin-bottom:10px}
+.skills p{font-size:15px;color:var(--muted);line-height:1.75}
+.edu{margin-top:48px;padding-top:28px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr);gap:36px;font-size:15px}
+.edu strong{display:block;font-size:16px}
+.edu span{color:var(--muted)}
+
+/* contact */
+.contact{background:var(--ink);color:var(--paper);padding:96px 0}
+.contact h2{font-size:clamp(34px,4.6vw,58px);letter-spacing:-.03em;line-height:1.05;max-width:14em}
+.contact p{color:color-mix(in srgb,var(--paper) 72%,transparent);margin-top:16px;max-width:34em}
+.contact .cta .btn{border-color:var(--paper);color:var(--paper)}
+.contact .cta .btn.primary{background:var(--mark);border-color:var(--mark);color:#1A2230}
+.contact .cta .btn.primary:hover{filter:brightness(1.05)}
+.contact .cta .btn.ghost:hover{background:color-mix(in srgb,var(--paper) 10%,transparent)}
+footer{background:var(--ink);color:color-mix(in srgb,var(--paper) 55%,transparent);font-size:14px;padding:0 0 40px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid color-mix(in srgb,var(--paper) 15%,transparent);padding-top:24px}
+.theme-toggle{background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline}
+
+/* responsive */
+@media (max-width:900px){
+  .hero{padding:40px 0 72px}
+  .hero .wrap,.p-head,.p-body{grid-template-columns:1fr}
+  .hero .wrap{gap:44px}
+  .p-head,.p-body,.fixes{padding-left:24px;padding-right:24px}
+  .p-head{padding-top:28px;gap:20px}
+  .fix-grid,.skills,.edu{grid-template-columns:1fr;gap:22px}
+  .others{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .sheet{padding:22px 18px}
+  .p-head,.p-body,.fixes{padding-left:18px;padding-right:18px}
+  .other{padding:24px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hl td{animation:none;background-size:100% 78%;color:#1A2230}
+  .ans{animation:none;opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#">Tejas Bornare</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <a class="gh" href="https://github.com/TejasBornare97">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="name">
+  <div class="wrap">
+    <div>
+      <h1 id="name">Tejas Bornare</h1>
+      <p class="role">AI/ML engineer, United Kingdom</p>
+      <p class="lede">I build document AI and LLM systems for insurance and financial services. Systems that cite their sources, check their own numbers, and know when a question should go to a person instead.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See my projects</a>
+        <a class="btn ghost" href="mailto:tejasravindrabornare@gmail.com">Email me</a>
+      </div>
+      <div class="facts">
+        <span><strong>3+ years</strong> in ML and data science</span>
+        <span><strong>RAG, NLP, document intelligence</strong></span>
+        <span><strong>MSc</strong> University of East Anglia</span>
+      </div>
+    </div>
+
+    <div class="demo" aria-label="Example from my insurance RAG assistant">
+      <p class="q">What is the escape of water excess under the Harbourline household policy?</p>
+      <div class="sheet">
+        <div class="doc-head"><span>Harbourline Insurance, Home Policy Wording</span><span>Page 2</span></div>
+        <h3>Part 5: Your excess</h3>
+        <table class="ex-table">
+          <thead><tr><th>Claim type</th><th>You pay</th></tr></thead>
+          <tbody>
+            <tr><td>Every claim unless shown below</td><td>£350</td></tr>
+            <tr class="hl"><td>Escape of water</td><td>£400</td></tr>
+            <tr><td>Subsidence, heave or landslip</td><td>£1,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ans" role="status">
+        <p class="status">Answered from the documents</p>
+        <p>The escape of water excess under the Harbourline household policy is £400 <span class="cite">1</span></p>
+        <p class="src"><span class="cite">1</span> Harbourline Insurance, Home Policy Wording, Part 5</p>
+      </div>
+      <p class="demo-note">A real test question and answer from my <a href="https://github.com/TejasBornare97/insurance-rag-assistant">insurance RAG assistant</a>. It's a trap: the other insurer in the set charges £500 for the same claim, and this table's £350 general excess sits one row above.</p>
+    </div>
+  </div>
+</section>
+
+<section id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <h2 class="sec-title" id="work-title">Projects</h2>
+    <p class="sec-intro">Both are built end to end, open source, and documented down to the bugs I found and how I fixed them.</p>
+
+    <!-- Project: RAG -->
+    <article class="project" aria-labelledby="p1">
+      <div class="p-head">
+        <div>
+          <h3 id="p1">AI Document Assistant for insurance policies</h3>
+          <p class="what">Ask a question about a policy in plain English. Get an answer that cites the insurer, document, page and section, with the passage highlighted on the original PDF. When the documents don't settle it, the assistant says so and recommends referral instead of deciding cover itself.</p>
+          <div class="p-links">
+            <a class="btn primary" href="https://github.com/TejasBornare97/insurance-rag-assistant">View code on GitHub</a>
+          </div>
+        </div>
+        <div class="stack">
+          <p class="stack-label">Built with</p>
+          <span>Python</span><span>PyMuPDF</span><span>sentence-transformers</span><span>ChromaDB</span><span>BM25</span><span>Reciprocal Rank Fusion</span><span>Llama 3.1 8B (Ollama)</span><span>Streamlit</span>
+        </div>
+      </div>
+      <div class="p-body">
+        <figure>
+          <div class="shot"><img src="assets/app_answer.webp" alt="The assistant answering a question about drone damage: it marks the answer as not settled by the documents, cites the closest clauses and recommends referral" width="1279" height="666" loading="lazy"></div>
+          <figcaption class="shot-cap">A grey-area question. The policy doesn't mention drones, so it cites the closest clauses and refers it rather than guessing.</figcaption>
+        </figure>
+        <div>
+          <table class="results">
+            <caption>Evaluated on 29 questions</caption>
+            <tbody>
+              <tr><td>Correct answers to answerable questions</td><td>27 / 27</td></tr>
+              <tr><td>Cited the right document</td><td>26 / 27</td></tr>
+              <tr><td>Cited the right section</td><td>25 / 27</td></tr>
+              <tr><td>Refused or referred when the answer wasn't there</td><td>2 / 2</td></tr>
+              <tr><td>Runs fully locally on a laptop CPU</td><td>15 s / answer</td></tr>
+            </tbody>
+          </table>
+          <p class="honest">Questions cover lookups, insurer traps, conditions, procedures, a calculation and unanswerable cases. Documents are synthetic, modelled on UK policy wordings, so every question has a known correct answer.</p>
+        </div>
+      </div>
+      <div class="fixes">
+        <h4>What broke in testing, and the fix</h4>
+        <div class="fix-grid">
+          <div class="fix"><strong>Two insurers' excess tables looked identical to search</strong><p>Every chunk now carries a header with its insurer, product, document and section, so a Harbourline question can't pull Northgate's table.</p></div>
+          <div class="fix"><strong>Vector search ranked a definition above the answer</strong><p>Added BM25 keyword search and fused both rankings with Reciprocal Rank Fusion, so exact terms like "excess" count.</p></div>
+          <div class="fix"><strong>The model invented a £5,000,000 limit</strong><p>Prompting alone didn't stop it. A check in code now flags any figure that doesn't appear in the cited sources.</p></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Project: Voice -->
+    <article class="project" aria-labelledby="p2">
+      <div class="p-head">
+        <div>
+          <h3 id="p2">AI Voice Receptionist</h3>
+          <p class="what">A voice agent that answers calls for a physiotherapy clinic. It listens, checks a real Google Calendar, books the appointment and confirms it out loud. Callers can interrupt it mid-sentence, like they would a person.</p>
+          <div class="p-links">
+            <a class="btn primary" href="https://github.com/TejasBornare97/voice-receptionist">View code on GitHub</a>
+          </div>
+        </div>
+        <div class="stack">
+          <p class="stack-label">Built with</p>
+          <span>Python</span><span>faster-whisper</span><span>Piper TTS</span><span>Claude tool calling</span><span>Google Calendar API</span><span>OAuth</span>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="call" aria-label="Excerpt from a test call">
+          <p class="line rx"><span class="who">Receptionist</span><span>Hello, you're through to Riverside Physio. How can I help you today?</span></p>
+          <p class="line"><span class="who">Caller</span><span>Can I book something on Wednesday?</span></p>
+          <p class="tool">check_availability(date="2026-11-11") → 10 free slots</p>
+          <p class="line rx"><span class="who">Receptionist</span><span>Yes, we have Wednesday the eleventh free from nine in the morning until a quar…</span></p>
+          <p class="cut">Caller interrupts</p>
+          <p class="line"><span class="who">Caller</span><span>Sorry, actually make it Thursday.</span></p>
+          <p class="tool">check_availability(date="2026-11-12") → 10 free slots</p>
+          <p class="line rx"><span class="who">Receptionist</span><span>No problem, Thursday the twelfth has the same times free. Is there a time of day that suits you best?</span></p>
+          <p class="tool">book_appointment(date="2026-11-12", time="12:00") → confirmed, ref A42ACE</p>
+          <p class="line rx"><span class="who">Receptionist</span><span>Your appointment is booked for Thursday the 12th of November at noon. Your booking reference is A42ACE.</span></p>
+        </div>
+        <div>
+          <table class="results">
+            <caption>How a turn works</caption>
+            <tbody>
+              <tr><td>Caller stops speaking</td><td>800 ms quiet</td></tr>
+              <tr><td>Speech to text, on CPU</td><td>Whisper int8</td></tr>
+              <tr><td>Agent decides and calls tools</td><td>3 tools</td></tr>
+              <tr><td>Reply spoken while still listening</td><td>Barge-in</td></tr>
+            </tbody>
+          </table>
+          <p class="honest">Speech recognition and synthesis run locally. There's also a text mode that runs the same agent with typed input, for fast testing.</p>
+        </div>
+      </div>
+      <div class="fixes">
+        <h4>Design decisions</h4>
+        <div class="fix-grid">
+          <div class="fix"><strong>Business rules live in code, not the prompt</strong><p>The tools reject weekends, past dates, bad phone numbers and taken slots, and re-check the slot just before booking so two callers can't take the same time.</p></div>
+          <div class="fix"><strong>Interruptions have to mean it</strong><p>While she's talking, the caller must be 3.5× louder than normal for about 360 ms. Coughs and echo are ignored, real speech still cuts in.</p></div>
+          <div class="fix"><strong>Phone numbers read as digits</strong><p>Without normalisation, the TTS read a mobile number as "seven billion, eight hundred and sixty-seven million". Numbers are now spoken in UK groupings.</p></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="others">
+      <div class="other">
+        <h3>Financial Document Research Assistant</h3>
+        <p>Document Q&amp;A over financial reports: chunking, embeddings and vector retrieval to ground LLM summaries in the relevant passages.</p>
+        <p class="tags">Python, LangChain, LangGraph, RAG</p>
+      </div>
+      <div class="other">
+        <h3>Customer Interaction Sentiment and Topic Analysis</h3>
+        <p>NLP classification pipeline on 5,000+ anonymised customer interactions, grouping recurring service themes. 87% sentiment accuracy.</p>
+        <p class="tags">PyTorch, Transformers, FastAPI</p>
+      </div>
+      <div class="other">
+        <h3>Motor Insurance Policy Renewal Modelling</h3>
+        <p>MSc project comparing logistic regression, decision trees and random forests to predict renewal and explain what drives retention.</p>
+        <p class="tags">R, supervised classification</p>
+      </div>
+      <div class="other now">
+        <h3>Now building: a small GPT from scratch</h3>
+        <p>Working through tokenisation, self-attention and training loops by writing a character-level transformer myself, following Andrej Karpathy's nanoGPT.</p>
+        <p class="tags">PyTorch, transformers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" aria-labelledby="exp-title">
+  <div class="wrap">
+    <h2 class="sec-title" id="exp-title">Experience</h2>
+    <div class="timeline">
+      <div class="job current">
+        <p class="when">Nov 2024 to present</p>
+        <h3>AI/ML Engineer, Ninea.ai</h3>
+        <p class="where">London, UK insurance client</p>
+        <ul>
+          <li>Built claims document intelligence for motor and home forms with Azure AI Document Intelligence: <span class="num">~91%</span> extraction accuracy across six fields on 1,500 labelled documents, cutting manual review by an estimated <span class="num">40%</span>.</li>
+          <li>Fine-tuned a RoBERTa classifier (<span class="num">0.88</span> macro-F1) to route incoming files to the right extraction workflow.</li>
+          <li>Built a RAG knowledge assistant with LangChain, Azure OpenAI and Azure AI Search, with Presidio PII redaction, guardrails and a 300-question human-reviewed evaluation set.</li>
+          <li>Deployed a containerised FastAPI service on Azure Container Apps with CI/CD; cut latency from <span class="num">~9s to ~4s</span> and token spend by <span class="num">~30%</span>.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <p class="when">Oct 2023 to Oct 2024</p>
+        <h3>Data Scientist, Ninea.ai</h3>
+        <p class="where">London</p>
+        <ul>
+          <li>Built XGBoost and neural-network models for financial risk and revenue forecasting, benchmarked against baselines.</li>
+          <li>Built transformer-based NLP in PyTorch to turn unstructured financial documents into structured features.</li>
+          <li>Delivered five Power BI dashboards and worked with MLOps on drift monitoring and retraining reviews.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <p class="when">Jul 2021 to Aug 2022</p>
+        <h3>Data Analyst, Technoid Consulting</h3>
+        <p class="where">UK, remote</p>
+        <ul>
+          <li>Optimised SQL reporting pipelines, cutting latency by up to <span class="num">40%</span>, and wrote reusable Python ingestion scripts.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" aria-labelledby="skills-title">
+  <div class="wrap">
+    <h2 class="sec-title" id="skills-title">Skills</h2>
+    <div class="skills">
+      <div><h3>GenAI and LLMs</h3><p>RAG, LangChain, LangGraph, Azure OpenAI, embeddings, vector search, hybrid retrieval, tool calling, prompt engineering, LLM evaluation</p></div>
+      <div><h3>Machine learning and NLP</h3><p>PyTorch, TensorFlow, Hugging Face, RoBERTa, XGBoost, logistic regression, forecasting, model evaluation</p></div>
+      <div><h3>Engineering and MLOps</h3><p>Python, SQL, FastAPI, Docker, Azure AI Search, Azure Document Intelligence, Azure Container Apps, Azure DevOps CI/CD, monitoring</p></div>
+      <div><h3>Data and analytics</h3><p>Pandas, NumPy, Power BI, feature engineering, EDA, data quality</p></div>
+      <div><h3>Responsible AI</h3><p>PII redaction, guardrails, human-in-the-loop review, model documentation, AI governance</p></div>
+      <div><h3>Domain</h3><p>UK insurance claims, policy wordings, risk analytics, financial services</p></div>
+    </div>
+    <div class="edu">
+      <div><strong>MSc Business Analytics and Management</strong><span>University of East Anglia, 2023</span></div>
+      <div><strong>Bachelor of Management Studies</strong><span>University of Mumbai, 2021</span></div>
+      <div><strong>Microsoft Certified: Power BI Data Analyst (PL-300)</strong><span>2025</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <h2 id="contact-title">Hiring for AI or ML in the UK? Let's talk.</h2>
+    <p>I'm open to AI/ML engineer and data scientist roles, especially in insurance and financial services.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:tejasravindrabornare@gmail.com">tejasravindrabornare@gmail.com</a>
+      <a class="btn ghost" href="https://github.com/TejasBornare97">GitHub</a>
+      <!-- Add your LinkedIn: <a class="btn ghost" href="https://www.linkedin.com/in/YOUR-HANDLE/">LinkedIn</a> -->
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Tejas Bornare</span>
+    <button class="theme-toggle" id="themeBtn" type="button">Switch to dark mode</button>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var top=document.getElementById('top');
+  function onScroll(){top.classList.toggle('scrolled',window.scrollY>8)}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var root=document.documentElement,btn=document.getElementById('themeBtn');
+  var saved=null;try{saved=localStorage.getItem('theme')}catch(e){}
+  if(saved)root.setAttribute('data-theme',saved);
+  function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches}
+  function label(){btn.textContent=isDark()?'Switch to light mode':'Switch to dark mode'}
+  label();
+  btn.addEventListener('click',function(){
+    var next=isDark()?'light':'dark';root.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next)}catch(e){}label();
+  });
+})();
+</script>
+</body>
+</html>
